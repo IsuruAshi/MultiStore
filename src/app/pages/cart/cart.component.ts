@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Cart, CartItem} from "../../models/cart.model";
+import {CartService} from "../../service/cart.service";
 
 @Component({
   selector: 'app-cart',
@@ -11,7 +12,7 @@ import {Cart, CartItem} from "../../models/cart.model";
                   <th mat-header-cell *matHeaderCellDef>Product</th>
                   <td mat-cell *matCellDef="let element">
                       <input class="w-[100px] my-5"
-                              type="image" src="{{element.product}}" alt="product">
+                             type="image" src="{{element.product}}" alt="product">
                   </td>
                   <td mat-footer-cell *matFooterCellDef>
                       <button mat-raised-button routerLink="/home">Continue Shopping</button>
@@ -20,48 +21,64 @@ import {Cart, CartItem} from "../../models/cart.model";
               <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Name</th>
                   <td mat-cell *matCellDef="let element">
-                     <p class="truncate max-w-xs">{{element.name}}</p>
+                      <span class="truncate max-w-xs block">{{ element.name }}</span>
                   </td>
                   <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
               <ng-container matColumnDef="price">
                   <th mat-header-cell *matHeaderCellDef>Price</th>
                   <td mat-cell *matCellDef="let element">
-                      <p class="truncate max-w-xs">{{element.price|currency:"Rs."}}</p>
+                      <span class="truncate max-w-xs">{{ element.price|currency:"Rs." }}</span>
                   </td>
                   <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
               <ng-container matColumnDef="quantity">
                   <th mat-header-cell *matHeaderCellDef>Quantity</th>
                   <td mat-cell *matCellDef="let element">
-                      <p class="truncate max-w-xs">{{element.quantity}}</p>
+                      <button
+                              (click)="onRemoveQuantity(element)"
+                              mat-icon-button>
+                          <mat-icon>remove</mat-icon>
+                      </button>
+                      <span>{{ element.quantity }}</span>
+                      <button
+                              (click)="onAddQuantity(element)"
+                              mat-icon-button>
+                          <mat-icon>add</mat-icon>
+                      </button>
                   </td>
                   <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
               <ng-container matColumnDef="total">
                   <th mat-header-cell *matHeaderCellDef>Total</th>
                   <td mat-cell *matCellDef="let element">
-                      <p class="truncate max-w-xs">{{element.total}}</p>
+                      <span class="truncate max-w-xs">
+                          {{ (element.quantity * element.price)|currency:"Rs." }}</span>
                   </td>
                   <td mat-footer-cell *matFooterCellDef>
                       <span class="font-bold py-5 block">
-                          {{getTotal(cart.items)|currency:"Rs."}}
+                          {{ getTotal(cart.items)|currency:"Rs." }}
                       </span>
                   </td>
               </ng-container>
               <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef>
-                      <button mat-raised-button color="warn" class="float-right">
+                      <button (click)="onClearCart()"
+                              mat-raised-button color="warn" class="float-right">
                           Clear All
                       </button>
                   </th>
                   <td mat-cell *matCellDef="let element">
-                      <p class="truncate max-w-xs">{{element.total}}</p>
+                      <!--                      <p class="truncate max-w-xs">{{element.total}}</p>-->
+                      <button (click)="onRemoveFromCart(element)"
+                              mat-mini-fab color="warn" class="float-right">
+                          <mat-icon>close</mat-icon>
+                      </button>
                   </td>
                   <td mat-footer-cell *matFooterCellDef>
-                      <span class="font-bold py-5 block">
-                          {{getTotal(cart.items)|currency:"Rs."}}
-                      </span>
+                      <button mat-raised-button color="primary" class="float-right">
+                          Process To CheckOut
+                      </button>
                   </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -79,7 +96,7 @@ import {Cart, CartItem} from "../../models/cart.model";
   `,
   styleUrl: './cart.component.scss'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   cart: Cart = {
     items: [{
       product: 'https://via.placeholder.com/150',
@@ -87,7 +104,15 @@ export class CartComponent {
       price: 150,
       quantity: 1,
       id: 1
-    }]
+    },
+      {
+        product: 'https://via.placeholder.com/150',
+        name: 'snickers',
+        price: 150,
+        quantity: 3,
+        id: 2
+      }
+    ]
   };
 
   dataSource: Array<CartItem> = [];
@@ -100,12 +125,29 @@ export class CartComponent {
   ]
 
   ngOnInit(): void {
-    this.dataSource = this.cart.items;
+    this.cartService.cart.subscribe((_cart: Cart) => {
+      this.cart = _cart;
+      this.dataSource = this.cart.items;
+    });
   }
-  getTotal(items:Array<CartItem>):number{
-     return items.map((item)=>
-       item.price* item.quantity)
-       .reduce((prev,current)=> (prev* current))
+
+  constructor(private cartService: CartService) {
+  }
+
+  getTotal(items: Array<CartItem>): number {
+    return this.cartService.getTotal(items);
+  }
+  onClearCart(){
+    this.cartService.clearCart();
+  }
+  onRemoveFromCart(item:CartItem){
+      this.cartService.removeFromCart(item);
+  }
+  onAddQuantity(item:CartItem){
+    this.cartService.addToCart(item);
+  }
+  onRemoveQuantity(item:CartItem){
+    this.cartService.removeQuantity(item);
   }
 
 

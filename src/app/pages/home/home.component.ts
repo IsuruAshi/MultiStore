@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {CartService} from "../../service/cart.service";
+import {Product} from "../../models/product.model";
 
 const ROWS_HEIGHT:{[id:number]:number}={1:400,3:335,4:350}
 @Component({
@@ -18,20 +20,11 @@ const ROWS_HEIGHT:{[id:number]:number}={1:400,3:335,4:350}
               [rowHeight]="rowHeight"
               >
                   <mat-grid-tile>
-                    <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
+                    <app-product-box
+                            (addToCart)="onAddToCart($event)"
+                            class="w-full" [fullWidthMode]="cols===1"/>
                   </mat-grid-tile>
-                  <mat-grid-tile>
-                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
-                  </mat-grid-tile>
+
               </mat-grid-list>
           </mat-drawer-content>
       </mat-drawer-container>
@@ -42,10 +35,22 @@ export class HomeComponent {
   cols=3;
   rowHeight=ROWS_HEIGHT[this.cols];
   category:string|undefined;
+  constructor(private cartService:CartService) {
+  }
   onColumnsCountChange(colsNum:number){
     this.cols=colsNum;
   }
   onShowCategory(newCategory:string){
     this.category=newCategory;
   }
+  onAddToCart(product:Product){
+    this.cartService.addToCart({
+      product:product.image,
+      name:product.title,
+      price:product.price,
+      quantity:1,
+      id:product.id
+    });
+  }
+
 }
