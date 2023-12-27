@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+const ROWS_HEIGHT:{[id:number]:number}={1:400,3:335,4:350}
 @Component({
   selector: 'app-home',
   template: `
@@ -11,7 +12,27 @@ import { Component } from '@angular/core';
           </mat-drawer>
           <mat-drawer-content class="p-6">
               <app-products-header (columnsCountChange)="onColumnsCountChange($event)"/>
-              {{category}}
+              <mat-grid-list
+              gutterSize="16"
+              [cols]="cols"
+              [rowHeight]="rowHeight"
+              >
+                  <mat-grid-tile>
+                    <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <app-product-box class="w-full" [fullWidthMode]="cols===1"/>
+                  </mat-grid-tile>
+              </mat-grid-list>
           </mat-drawer-content>
       </mat-drawer-container>
   `,
@@ -19,6 +40,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   cols=3;
+  rowHeight=ROWS_HEIGHT[this.cols];
   category:string|undefined;
   onColumnsCountChange(colsNum:number){
     this.cols=colsNum;
