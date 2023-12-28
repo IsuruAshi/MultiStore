@@ -4,22 +4,21 @@ import {Product} from "../../../../models/product.model";
 @Component({
   selector: 'app-product-box',
   template: `
-      <mat-card [ngClass]="{'text-center':fullWidthMode}">
+      <mat-card *ngIf="product" [ngClass]="{'text-center':!fullWidthMode}">
           <div [ngClass]="{'flex':fullWidthMode}">
-              <img class="mb-1 mx-auto h-[200px]"
-                   [ngClass]="{'h-200px': !fullWidthMode,
-                 'h-[360px]':fullWidthMode}"
-                   src="https://via.placeholder.com/150"
+              <img class="mb-1 mx-auto"
+                   [ngClass]="{'h-[200px]': !fullWidthMode,'h-[360px]':fullWidthMode}"
+                   [src]="product.image" alt="product.title"
               />
               <div class="w-full"
                    [ngClass]="{'px-8 flex flex-col justify-between':fullWidthMode}">
                   <div>
-                      <h5>Shoes</h5>
-                      <p class="truncate hover:whitespace-normal">Snickers</p>
-                      <p *ngIf="fullWidthMode">Description</p>
+                      <h5>{{ product.category }}</h5>
+                      <p class="truncate hover:whitespace-normal">{{ product.title }}</p>
+                      <p *ngIf="fullWidthMode">{{ product.description }}</p>
                   </div>
                   <div class="flex justify-between">
-                      <span class="text-red-500">{{ '150'|currency:"Rs." }}</span>
+                      <span class="text-red-500">{{ product.price|currency:"Rs." }}</span>
                       <button (click)="onAddToCart()">
                           <mat-icon class="text-gray-600">shopping_cart</mat-icon>
                       </button>

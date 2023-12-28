@@ -15,17 +15,20 @@ const ROWS_HEIGHT:{[id:number]:number}={1:400,3:335,4:350}
               <app-filters (showCategory)="onShowCategory($event)"/>
           </mat-drawer>
           <mat-drawer-content class="p-6">
-              <app-products-header (columnsCountChange)="onColumnsCountChange($event)"/>
+              <app-products-header
+                      (sortChange)="onSortChange($event)"
+                      (itemsCountChange)="onItemsCountChange($event)"
+                      (columnsCountChange)="onColumnsCountChange($event)"/>
               <mat-grid-list
-              gutterSize="16"
-              [cols]="cols"
-              [rowHeight]="rowHeight"
+                      gutterSize="16"
+                      [cols]="cols"
+                      [rowHeight]="rowHeight"
               >
                   <mat-grid-tile *ngFor="let product of products">
-                    <app-product-box
-                            [product]="product"
-                            (addToCart)="onAddToCart($event)"
-                            class="w-full" [fullWidthMode]="cols===1"/>
+                      <app-product-box
+                              [product]="product"
+                              (addToCart)="onAddToCart($event)"
+                              class="w-full" [fullWidthMode]="cols===1"/>
                   </mat-grid-tile>
 
               </mat-grid-list>
@@ -41,7 +44,7 @@ export class HomeComponent implements OnInit,OnDestroy{
   products: Array<Product>|undefined;
   sort='desc';
   count='12';
-  productSubscription:Subscription| undefined;
+  productsSubscription:Subscription| undefined;
 
   constructor(private cartService:CartService,private storeService:StoreService ) {
   }
@@ -49,21 +52,25 @@ export class HomeComponent implements OnInit,OnDestroy{
     this.getProducts();
   }
   getProducts(){
-   const productsSubscription= this.storeService.getAllProducts(this.count,this.sort)
+   this.productsSubscription= this.storeService.getAllProducts(this.count,this.sort,this.category)
       .subscribe((_products)=>{
         this.products=_products;
       })
+  }
+  onSortChange(newSort:string){
+    this.sort=newSort;
   }
   onColumnsCountChange(colsNum:number){
     this.cols=colsNum;
     this.rowHeight=ROWS_HEIGHT[colsNum]
   }
   onItemsCountChange(count:number){
-    // this.count=count.toString();
+    this.count=count.toString();
     this.getProducts();
   }
   onShowCategory(newCategory:string){
     this.category=newCategory;
+    this.getProducts();
   }
   onAddToCart(product:Product){
     this.cartService.addToCart({
@@ -75,8 +82,10 @@ export class HomeComponent implements OnInit,OnDestroy{
     });
   }
   ngOnDestroy() {
-    if(this.productSubscription){}
-    this.productSubscription?.unsubscribe();
+    if(this.productsSubscription){
+      this.productsSubscription?.unsubscribe();
+    }
+
   }
 
 }

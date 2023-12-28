@@ -35,6 +35,9 @@ dependencies:
   '@angular/router':
     specifier: ^17.0.0
     version: 17.0.8(@angular/common@17.0.8)(@angular/core@17.0.8)(@angular/platform-browser@17.0.8)(rxjs@7.8.1)
+  '@stripe/stripe-js':
+    specifier: 1.35.0
+    version: 1.35.0
   rxjs:
     specifier: ~7.8.0
     version: 7.8.1
@@ -3049,6 +3052,10 @@ packages:
   /@socket.io/component-emitter@3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
     dev: true
+
+  /@stripe/stripe-js@1.35.0:
+    resolution: {integrity: sha512-UIuzpbJqgXCTvJhY/aZYvBtaKdMfQgnIv6kkLlfRJ9smZcC4zoPvq3j7k9wobYI+idHAWP4BRiPnqA8lvzJCtg==}
+    dev: false
 
   /@tufjs/canonical-json@2.0.0:
     resolution: {integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA==}
