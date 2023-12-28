@@ -18,6 +18,7 @@ This project is licensed under the [MIT License](LICENSE.txt)
 
 - **Product Data:**
   - Utilizes the [Fakestore API](https://fakestoreapi.com/) for realistic product information.
+
 - **Future Improvements**
   - Utilize Stripe to include transactions
 
@@ -42,4 +43,4 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 1. Clone the repository:
    ```bash
-   https://github.com/IsuruAshi/#####
+   https://github.com/IsuruAshi/MultiStore-Angular
