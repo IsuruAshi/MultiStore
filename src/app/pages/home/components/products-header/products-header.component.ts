@@ -3,10 +3,10 @@ import {Component, EventEmitter, Output} from '@angular/core';
 @Component({
   selector: 'app-products-header',
   template: `
-      <mat-card class="mb-4 p-3">
+      <mat-card class="mb-4 p-3" style="background:lightcyan">
           <div class="flex justify-between">
               <div>
-                  <button mat-button [matMenuTriggerFor]="sortByMenu">
+                  <button  mat-button [matMenuTriggerFor]="sortByMenu">
                       Sort by {{ sort }}
                       <mat-icon>expand_more</mat-icon>
                   </button>
@@ -28,14 +28,14 @@ import {Component, EventEmitter, Output} from '@angular/core';
                       </mat-menu>
                   </div>
                   <button (click)="onColumnsUpdated(1)">
-                      <mat-icon>view_list</mat-icon>
+                      <mat-icon color="primary">view_list</mat-icon>
                   </button>
 
                   <button (click)="onColumnsUpdated(3)">
-                      <mat-icon>view_module</mat-icon>
+                      <mat-icon color="primary">view_module</mat-icon>
                   </button>
                   <button (click)="onColumnsUpdated(4)">
-                      <mat-icon>view_comfy</mat-icon>
+                      <mat-icon color="primary">view_comfy</mat-icon>
                   </button>
               </div>
           </div>

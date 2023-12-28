@@ -5,8 +5,8 @@ import {CartService} from "../../service/cart.service";
 @Component({
   selector: 'app-header',
   template: `
-    <mat-toolbar class="max-w-7xl mx-auto border-x justify-between">
-        <a routerLink="home">Store</a>
+    <mat-toolbar class="max-w-full mx-auto border-x justify-between">
+        <a class="text-teal-600 text-2xl font-bold" routerLink="home">MULTISTORE</a>
         <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon
                     [matBadge]="itemsQuantity"
@@ -25,13 +25,13 @@ import {CartService} from "../../service/cart.service";
                             *ngFor="let item of cart.items"
                             class="flex justify-between font-light mb-2">
                         {{ item.name }} x {{item.quantity}}
-                        <span class="font-bold">{{item.price|currency:"Rs."}}</span>
+                        <span class="font-bold">{{item.price|currency}}</span>
                     </div>
 
                 </div>
                 <div class="flex justify-between py-3 font-light">
                     Total:
-                    <span class="font-bold">{{getTotal(cart.items)|currency:"Rs."}}</span>
+                    <span class="font-bold">{{getTotal(cart.items)|currency}}</span>
                 </div>
                 <div class="pt-3 flex justify-between">
                     <button (click)="onClearCart()"
@@ -41,14 +41,11 @@ import {CartService} from "../../service/cart.service";
                     <button
                             routerLink="cart"
                             class="bg-green-700 text-white rounded-full w-10 h-10 pt-1">
-                        <mat-icon>shopping_cart</mat-icon>
+                        <mat-icon>shopping_cart_checkout</mat-icon>
                     </button>
-
                 </div>
-
             </div>
         </mat-menu>
-
     </mat-toolbar>
   `,
   styleUrl: './header.component.scss'

@@ -6,8 +6,8 @@ import {Subscription} from "rxjs";
   selector: 'app-filters',
   template: `
       <mat-expansion-panel *ngIf="categories">
-          <mat-expansion-panel-header>
-              <mat-panel-title>CATEGORIES</mat-panel-title>
+          <mat-expansion-panel-header style="background: darkcyan">
+              <mat-panel-title style="color: whitesmoke" >CATEGORIES</mat-panel-title>
           </mat-expansion-panel-header>
           <mat-selection-list [multiple]="false">
               <mat-list-option *ngFor="let category of categories">
@@ -21,12 +21,14 @@ import {Subscription} from "rxjs";
 export class FiltersComponent implements OnInit,OnDestroy{
   @Output() showCategory = new EventEmitter<string>();
   categoriesSubscription :Subscription|undefined;
-  categories : Array<string>|undefined;
+  categories : string[]|undefined;
 
   constructor(private storeService:StoreService) {
   }
   ngOnInit() {
-    this.storeService.getAllCategories().subscribe((response)=>{
+    this.storeService
+      .getAllCategories()
+      .subscribe((response:Array<string>)=>{
       this.categories=response;
     })
   }
