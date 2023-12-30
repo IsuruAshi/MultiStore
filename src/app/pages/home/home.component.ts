@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {CartService} from "../../service/cart.service";
 import {Product} from "../../models/product.model";
 import {Subscription} from "rxjs";
@@ -59,13 +59,14 @@ export class HomeComponent implements OnInit,OnDestroy{
   }
   onSortChange(newSort:string){
     this.sort=newSort;
+    this.getProducts();
   }
   onColumnsCountChange(colsNum:number){
     this.cols=colsNum;
     this.rowHeight=ROWS_HEIGHT[colsNum]
   }
-  onItemsCountChange(count:number){
-    this.count=count.toString();
+  onItemsCountChange(newCount:number){
+    this.count=newCount.toString();
     this.getProducts();
   }
   onShowCategory(newCategory:string){

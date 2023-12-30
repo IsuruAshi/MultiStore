@@ -79,6 +79,7 @@ import {loadStripe} from "@stripe/stripe-js";
                   </td>
                   <td mat-footer-cell *matFooterCellDef>
                       <button
+                              (click)="onCheckOut()"
                               mat-raised-button color="primary" class="float-right">
                           Process To CheckOut
                       </button>
@@ -138,16 +139,16 @@ export class CartComponent implements OnInit {
   onRemoveQuantity(item:CartItem){
     this.cartService.removeQuantity(item);
   }
-  // onCheckOut(){
-  //     this.http.post('http://localhost:4242/checkout',{
-  //       items:this.cart.items
-  //     }).subscribe(async (res:any)=>{
-  //       let stripe= await loadStripe('pk_test_51OSCBTSGbojHSoUBsjKxo7rOau1sZCQNGpFYrI0HAzQxvteZb6zGMqvlKFjLw4WkkyrJd12lwtMNoFjXc6KuYUH600TckUdO63');
-  //       stripe?.redirectToCheckout({
-  //         sessionId:res.id
-  //       })
-  //     });
-  // }
+  onCheckOut(){
+      this.http.post('http://localhost:4242/checkout',{
+        items:this.cart.items
+      }).subscribe(async (res:any)=>{
+        let stripe= await loadStripe('pk_test_51OSCBTSGbojHSoUBsjKxo7rOau1sZCQNGpFYrI0HAzQxvteZb6zGMqvlKFjLw4WkkyrJd12lwtMNoFjXc6KuYUH600TckUdO63');
+        stripe?.redirectToCheckout({
+          sessionId:res.id
+        })
+      });
+  }
 
 
 }
