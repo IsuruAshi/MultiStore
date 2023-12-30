@@ -38,6 +38,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ![Screenshot2](screenshots/mutistore2.png)
 ![Screenshot3](screenshots/mutistore3.png)
 ![Screenshot4](screenshots/mutistore4.png)
+![Screenshot5](screenshots/multistore5.png)
 
 ### Setup
 
